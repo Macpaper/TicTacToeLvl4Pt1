@@ -1,5 +1,8 @@
 export default class Input {
   constructor(game) {
+
+    this.game = game;
+
     this.clicking = false;
 
     this.mouseX = 0;
