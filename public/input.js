@@ -23,18 +23,18 @@ export default class Input {
 
   init() {
 
-    document.addEventListener("mousemove", e =>{
+    this.game.canv.addEventListener("mousemove", e =>{
       this.mouseX = e.offsetX;
       this.mouseY = e.offsetY;
     });
 
-    document.addEventListener("mousedown", e => {
+    this.game.canv.addEventListener("mousedown", e => {
       if (e.button == 0) {
         this.clicking = true;
       }
     });
 
-    document.addEventListener("mouseup", e => {
+    this.game.canv.addEventListener("mouseup", e => {
       if (e.button == 0) {
         this.clicking = false;
       }

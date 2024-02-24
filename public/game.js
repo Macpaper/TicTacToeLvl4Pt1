@@ -2,18 +2,21 @@ import Square from "./square.js";
 import Input from "./input.js";
 
 export default class Game {
-  constructor(W, H) {
+  constructor(W, H, canv) {
     this.gameWidth = W;
     this.gameHeight = H;
-
+    this.start = false;
     this.squareSize = this.gameHeight / 5;
-
+    this.canv = canv;
     this.input = new Input(this);
 
     this.turn = 0;
 
     this.squares = [];
     this.makeBoard();
+    
+    this.myTurn = 'o';
+    this.roomID = '';
 
     this.winner = "e";
   }
@@ -22,7 +25,7 @@ export default class Game {
     let count = 0;
     for(let col = 0; col < 3; col++) {
       for (let row = 0; row < 3; row++) {
-        let square = new Square(this, col * (this.squareSize + this.squareSize/20) + this.gameWidth / 2 - (this.squareSize * 3 + 3*this.squareSize/20)/2, row * (this.squareSize + this.squareSize/20) + this.squareSize,  this.squareSize, count);
+        let square = new Square(this, col * (this.squareSize + this.squareSize/20) + this.gameWidth / 2 - (this.squareSize * 3 + 3*this.squareSize/20)/2, row * (this.squareSize + this.squareSize/20) + this.squareSize,  this.squareSize, count, row, col);
         count += 1;
         this.squares.push(square);
         console.log(square.x, square.y);
@@ -56,10 +59,15 @@ export default class Game {
     }
   }
 
-  update() {
-    this.squares.forEach(s => {
-      s.update();
-    });
+  update(w, h) {
+    this.squareSize = this.gameHeight / 5;
+    this.gameWidth = w;
+    this.gameHeight = h;
+    if(this.start) {
+      this.squares.forEach(s => {
+        s.update();
+      });
+    }
 
     this.input.update();
   }
@@ -77,6 +85,12 @@ export default class Game {
       ctx.fillStyle = "black";
       ctx.font = "bold 48px serif";
       ctx.fillText(this.winner + " WINS!!!", this.gameWidth/2, this.gameHeight/10);
+      
     }
+    ctx.fillStyle = "black";
+    ctx.font = "bold 48px serif";
+    ctx.fillText("You are: " + this.myTurn.toUpperCase(), 50, 50);
+
+  
   }
-}
+} 

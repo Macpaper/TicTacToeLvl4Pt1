@@ -1,5 +1,5 @@
 export default class Square {
-  constructor(game, x, y, size, num) {
+  constructor(game, x, y, size, num, row, col) {
     this.game = game;
 
     this.size = size;
@@ -8,7 +8,10 @@ export default class Square {
 
     this.mouseX = this.game.input.mouseX;
     this.mouseY = this.game.input.mouseY;
-
+    this.col = col;
+    this.row = row;
+    // col * (this.squareSize + this.squareSize/20) + this.gameWidth / 2 - (this.squareSize * 3 + 3*this.squareSize/20)/2,
+    //  row * (this.squareSize + this.squareSize/20) + this.squareSize
     this.x = x;
     this.y = y;
 
@@ -20,6 +23,9 @@ export default class Square {
   }
 
   update() {
+    this.x = this.col * (this.game.squareSize + this.game.squareSize / 20) + this.game.gameWidth / 2 - (this.game.squareSize * 3 + 3 * this.game.squareSize / 20) / 2;
+    this.y = this.row * (this.game.squareSize + this.game.squareSize / 20) + this.game.squareSize;
+    this.size = this.game.squareSize;
     this.mouseX = this.game.input.mouseX;
     this.mouseY = this.game.input.mouseY;
     this.clicking = this.game.input.clicking;
@@ -37,11 +43,17 @@ export default class Square {
       if (!this.clicking) {
         if (this.clickingCheck) {
           this.clickingCheck = false;
+        
+          if (this.game.turn % 2 == 0 && this.game.myTurn == 'x'||
+              this.game.turn % 2 == 1 && this.game.myTurn == 'o') {
 
-          if (this.choice == "e" && this.game.winner == "e") {
-            this.game.turn % 2 == 0 ? this.choice = "X" : this.choice = "O";
-            this.game.turn += 1;
-            this.game.checkWin();
+                if (this.choice == "e" && this.game.winner == "e") {
+                  let piece = 1;
+                  if (this.game.myTurn == 'o') {
+                    piece = 2;
+                  }
+                  this.game.socket.emit("next turn", this.num, piece, this.game.turn + 1);
+                }  
           }
         }
       }

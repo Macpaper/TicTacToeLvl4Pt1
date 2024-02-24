@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+  <div id="container">
+
+    <canvas></canvas>
+
+    <div id="chat-container">
+      
+      <div id="message-container">
+        <div id="messages">
+          
+        </div>
+      </div>
+
+      <div id="input-container">
+        <form action="" id="message-form">
+          <input id="input-text" type="text"> <input id="send-button" type="button" value="Send">
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js" type="module" defer></script>
+</body> 
+</html> 
